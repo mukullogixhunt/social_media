@@ -7,7 +7,6 @@ A simple social media application built with Flutter and Firebase, demonstrating
 *   **Authentication:**
     *   Sign up with Email & Password.
     *   Sign in with Email & Password.
-    *   Sign in with Google.
     *   Persistent login state.
 *   **Posting:**
     *   Create and publish text-based posts.
@@ -52,7 +51,7 @@ Follow these steps carefully to get the project running:
 
 1.  **Clone the Repository:**
     ```bash
-    git clone <your-repository-url>
+    git clone https://github.com/mukullogixhunt/social_media.git
     cd social_media
     ```
     *(Replace `<your-repository-url>` with the actual URL)*
@@ -137,14 +136,15 @@ Follow these steps carefully to get the project running:
 
 The project follows a feature-first structure based on Clean Architecture principles:
 
+```text
 lib/
 ├── core/                   # Shared code: constants, extensions, theme, base classes (UseCase, Failure)
 │   ├── constants/          # App-wide constants (e.g., MediaConstants, TextConstants)
 │   ├── error/              # Failure classes, exception handling
-│   ├── extentions/         # Dart extensions (e.g., BuildContext)
+│   ├── extentions/         # Dart extensions (e.g., BuildContext)  <-- Note: Typo? Should be "extensions"?
 │   ├── theme/              # App theme data (light/dark mode)
 │   ├── usecase/            # Base UseCase class
-│   └── utlis/              # Utility widgets/functions (e.g., FullScreenLoader, formatTimeAgo)
+│   └── utlis/              # Utility widgets/functions (e.g., FullScreenLoader, formatTimeAgo) <-- Note: Typo? Should be "utils"?
 ├── features/               # Feature modules
 │   ├── auth/               # Authentication feature
 │   │   ├── data/           # Data layer: models, datasources, repositories impl
