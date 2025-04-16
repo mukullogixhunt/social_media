@@ -38,15 +38,13 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
     final User user = userCredential.user!;
 
-    // await firebaseFirestore.collection('users').doc(user.uid).set({
-    //   'uid': user.uid,
-    //   'name': name,
-    //   'email': user.email,
-    //   'displayName': user.displayName,
-    //   'photoURL': user.photoURL,
-    //   'created_at': Timestamp.now(),
-    //   'last_sign_in': Timestamp.now(),
-    // });
+    await firebaseFirestore.collection('users').doc(user.uid).set({
+      'uid': user.uid,
+      'name': name,
+      'email': user.email,
+      'createdAt': Timestamp.now(),
+      'lastSignIn': Timestamp.now(),
+    });
 
     return user;
   }
@@ -60,13 +58,13 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
     final User user = userCredential.user!;
 
-    // try {
-    //   await firebaseFirestore.collection('users').doc(user.uid).update({
-    //     'last_sign_in': Timestamp.now(),
-    //   });
-    // } catch (e) {
-    //   print("Warning: Failed to update last_sign_in for ${user.uid}: $e");
-    // }
+    try {
+      await firebaseFirestore.collection('users').doc(user.uid).update({
+        'lastSignIn': Timestamp.now(),
+      });
+    } catch (e) {
+      print("Warning: Failed to update last_sign_in for ${user.uid}: $e");
+    }
 
     return user;
   }
@@ -94,35 +92,34 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
     final User user = userCredential.user!;
 
-    // final userDocRef = firebaseFirestore.collection('users').doc(user.uid);
-    // final userDoc = await userDocRef.get();
-    //
-    // final userData = {
-    //   'uid': user.uid,
-    //   'name': user.displayName ?? googleUser.displayName ?? 'N/A',
-    //   'email': user.email,
-    //   'photoURL': user.photoURL ?? googleUser.photoUrl,
-    //   'last_sign_in': Timestamp.now(),
-    // };
-    //
-    // if (!userDoc.exists) {
-    //   userData['created_at'] = Timestamp.now();
-    //   try {
-    //     await userDocRef.set(userData);
-    //   } catch (e) {
-    //     print(
-    //       "Warning: Failed to create Firestore doc for new Google user ${user.uid}: $e",
-    //     );
-    //   }
-    // } else {
-    //   try {
-    //     await userDocRef.update(userData);
-    //   } catch (e) {
-    //     print(
-    //       "Warning: Failed to update Firestore doc for Google user ${user.uid}: $e",
-    //     );
-    //   }
-    // }
+    final userDocRef = firebaseFirestore.collection('users').doc(user.uid);
+    final userDoc = await userDocRef.get();
+
+    final userData = {
+      'uid': user.uid,
+      'name': user.displayName ?? googleUser.displayName ?? 'N/A',
+      'email': user.email,
+      'lastSignIn': Timestamp.now(),
+    };
+
+    if (!userDoc.exists) {
+      userData['createdAt'] = Timestamp.now();
+      try {
+        await userDocRef.set(userData);
+      } catch (e) {
+        print(
+          "Warning: Failed to create Firestore doc for new Google user ${user.uid}: $e",
+        );
+      }
+    } else {
+      try {
+        await userDocRef.update(userData);
+      } catch (e) {
+        print(
+          "Warning: Failed to update Firestore doc for Google user ${user.uid}: $e",
+        );
+      }
+    }
 
     return user;
   }
